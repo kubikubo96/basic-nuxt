@@ -1,0 +1,87 @@
+:root {
+    --vs-radius: 20px !important;
+    --vs-zindex-1: 100000 !important;
+    --vs-zindex-2: 99000 !important;
+    --vs-zindex-3: 98000 !important;
+    --vs-zindex-4: 97000 !important;
+    --vs-background: 30, 32, 35 !important;
+    --vs-text: 255, 255, 255 !important;
+    --vs-gray-1: 24, 25, 28 !important;
+    --vs-gray-2: 20, 20, 23 !important;
+    --vs-gray-3: 15, 16, 19 !important;
+    --vs-gray-4: 10, 11, 14 !important;
+    --vs-shadow-opacity: .3 !important;
+    --vs-dark: 0, 0, 0 !important;
+    --vs-background-opacity: .6 !important;
+    --vs-theme-bg: #18191c !important;
+    --vs-theme-color: #fff !important;
+    --vs-theme-layout: #1e2023 !important;
+    --vs-theme-bg2: #141417 !important;
+    --vs-theme-code: #141417 !important;
+    --vs-theme-code2: #161619 !important;
+}
+
+.vs-pagination-content.vs-component.vs-pagination__active {
+    --vs-color: 255, 255, 255 !important;
+    color: rgba(var(--vs-gray-3), 1) !important;
+}
+
+.vs-button.vs-component.vs-button--transparent {
+    color: rgba(var(--vs-text), 1) !important;
+}
+
+.vs-button.vs-component.vs-button--transparent:hover:before {
+    background: rgba(var(--vs-color), 0.2) !important;
+}
+
+.vs-button.vs-component.vs-button--transparent.vs-button--active:before {
+    background: rgba(var(--vs-color), var(--vs-background-opacity)) !important;
+}
+
+.vs-ripple, .vs-ripple-invert, .vs-ripple-content {
+    --vs-color: 0, 0, 0 !important;
+}
+
+.vs-loading {
+    --vs-background: 0, 0, 0 !important;
+}
+
+.vs-input-parent--state {
+    --vs-dark: 255, 255, 255 !important;
+}
+
+.vs-input-parent--state .vs-input {
+    background: #000 !important;
+}
+
+.vs-component {
+    --vs-color: 0, 0, 0 !important;
+}
+
+.vs-component .vs-avatar {
+    color: #fff !important;
+}
+
+.vs-component.vs-alert {
+    --vs-color: 0, 0, 0 !important;
+    background: rgba(var(--vs-color), 1) !important;
+    color: rgba(var(--vs-text), 1) !important;
+}
+
+
+.darken .vs-notification {
+    color: #fff !important;
+}
+
+.darken .vs-notification .vs-notification__close {
+    --vs-color: 255, 255, 255 !important;
+}
+
+.darken .vs-notification h4 {
+    color: #fff !important;
+}
+
+.darken .vs-notification p {
+    color: #fff !important;
+}
+
