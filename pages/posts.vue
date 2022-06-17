@@ -3,29 +3,7 @@
     <div class="col-md-8">
       <h3>List Posts</h3>
     </div>
-
-    <div class="center">
-      <vs-dialog v-model="dialog">
-        <template #header>
-          <h4 class="not-margin"><b>{{isStore ? "Create" : "Update"}}</b></h4>
-        </template>
-
-        <div class="con-form">
-          <vs-input v-model="post.title" placeholder="Enter title"> </vs-input>
-          <vs-input v-model="post.content" placeholder="Enter content">
-          </vs-input>
-        </div>
-
-        <template #footer>
-          <div class="footer-dialog">
-            <vs-button block @click="isStore ? store() : update()">
-              Submit
-            </vs-button>
-          </div>
-        </template>
-      </vs-dialog>
-    </div>
-
+    <DialogCU :isStore="isStore" :post="post" :idUpdate="idUpdate" />
     <div class="col-md-4">
       <vs-button class="sf-add" @click="openDialog()"> Create News </vs-button>
     </div>
@@ -80,13 +58,14 @@
 <script>
 import EditProfileForm from "../components/UserProfile/EditProfileForm.vue";
 import UserCard from "../components/UserProfile/UserCard.vue";
+import DialogCU from "~/components/Sf/DialogCU.vue";
 
 export default {
-  scrollToTop: true,
   name: "post",
   components: {
     EditProfileForm,
     UserCard,
+    DialogCU,
   },
   computed: {
     posts() {
@@ -101,9 +80,6 @@ export default {
       limit: 20,
       length: 1,
       total: 1,
-      dialog: false,
-      title: "",
-      content: "",
       post: {
         title: "",
         content: "",
@@ -132,74 +108,13 @@ export default {
   },
   methods: {
     openDialog(post = null) {
-      this.dialog = !this.dialog;
+      this.$store.commit("posts/TOGGLE_DIALOG");
       this.isStore = true;
       if (post) {
         this.isStore = false;
         this.idUpdate = post.id;
-        this.post.title = post.title;
-        this.post.content = post.content;
+        this.post = { title: post.title, content: post.content };
       }
-    },
-    store() {
-      this.$nuxt.$loading.start();
-      this.$api.posts.base
-        .store(this.post)
-        .then((res) => {
-          this.$store.commit("posts/ADD", res.data);
-          this.dialog = false;
-          this.post = {
-            title: "",
-            content: "",
-          };
-          this.$vs.notification({
-            flat: true,
-            title: "Success!",
-            color: "success",
-            position: "top-center",
-          });
-        })
-        .catch((error) => {
-          this.$vs.notification({
-            flat: true,
-            title: error,
-            color: "danger",
-            position: "top-center",
-          });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
-        });
-    },
-    update() {
-      this.$nuxt.$loading.start();
-      this.$api.posts.base
-        .update(this.idUpdate, this.post)
-        .then((res) => {
-          this.$store.commit("posts/UPDATE", res.data);
-          this.dialog = false;
-          this.post = {
-            title: "",
-            content: "",
-          };
-          this.$vs.notification({
-            flat: true,
-            title: "Success!",
-            color: "success",
-            position: "top-center",
-          });
-        })
-        .catch((error) => {
-          this.$vs.notification({
-            flat: true,
-            title: error,
-            color: "danger",
-            position: "top-center",
-          });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
-        });
     },
     remove(post) {
       if (confirm("Remove post?")) {
@@ -260,59 +175,6 @@ export default {
   .sf-action {
     display: flex;
     text-align: right;
-  }
-}
-.not-margin {
-  margin: 0px;
-  font-weight: normal;
-  padding: 10px;
-}
-.con-form {
-  width: 100%;
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    a {
-      font-size: 0.8rem;
-      opacity: 0.7;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-  .vs-checkbox-label {
-    font-size: 0.8rem;
-  }
-  .vs-input-content {
-    margin: 10px 0px;
-    width: calc(100%);
-    .vs-input {
-      width: 100%;
-    }
-  }
-}
-.footer-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: calc(100%);
-  .new {
-    margin: 0px;
-    margin-top: 20px;
-    padding: 0px;
-    font-size: 0.7rem;
-    a {
-      color: rgba(var(--vs-primary), 1) !important;
-      margin-left: 6px;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  .vs-button {
-    margin: 0px;
   }
 }
 </style>
