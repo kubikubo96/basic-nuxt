@@ -109,6 +109,7 @@ export default {
   methods: {
     openDialog(post = null) {
       this.$store.commit("posts/TOGGLE_DIALOG");
+      this.post = { title: "", content: "" };
       this.isStore = true;
       if (post) {
         this.isStore = false;

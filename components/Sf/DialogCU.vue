@@ -35,12 +35,7 @@ export default {
     },
   },
   data() {
-    return {
-      postEmpty: {
-        title: "",
-        content: "",
-      },
-    };
+    return {};
   },
   created() {},
   mounted() {},
@@ -55,8 +50,6 @@ export default {
         .then((res) => {
           this.$store.commit("posts/ADD", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");
-
-          this.$emit("post", this.postEmpty);
 
           this.$vs.notification({
             flat: true,
@@ -84,8 +77,6 @@ export default {
         .then((res) => {
           this.$store.commit("posts/UPDATE", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");
-
-          this.$emit("post", this.postEmpty);
 
           this.$vs.notification({
             flat: true,
