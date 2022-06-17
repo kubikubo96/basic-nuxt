@@ -62,8 +62,8 @@
         <div>=============================================================</div>
         <div>Truyền  data từ con lên cha</div>
         <div>hiện ở Cha: {{dataShareChild}}</div>
-        <TagSelector :dataShareChild="dataShareChild" @dataShareUpdate="updateDataShareFromChild" />
-        <!--@dataShareUpdate="updateDataShareFromChild": lắng nghe con thay đổi bằng function-->
+        <TagSelector :dataShareChild="dataShareChild" @dataShareUpdate="dataUpdateShareFromChild" />
+        <!--@dataShareUpdate="dataUpdateShareFromChild": lắng nghe con thay đổi bằng function-->
         <div>=============================================================</div>
         <div>Using Store</div>
         <div>lay data tu store vuex: </div>
@@ -140,7 +140,7 @@ export default {
             });
         },
         //cách để cha lắng nghe con thay đổi
-        updateDataShareFromChild(dataShareChild) {
+        dataUpdateShareFromChild(dataShareChild) {
             this.dataShareChild = dataShareChild;
         },
         logDataStore() {

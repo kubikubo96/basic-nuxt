@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <h3>List Posts</h3>
     </div>
-    <DialogCU :isUpdate="isUpdate" :post="post" />
+    <dialog-c-u :dataUpdate="dataUpdate" :post="post" />
     <div class="col-md-4">
       <vs-button class="sf-add" @click="openDialog()"> Create News </vs-button>
     </div>
@@ -79,7 +79,7 @@ export default {
       length: 1,
       total: 1,
       post: { title: "", content: "" },
-      isUpdate: { status: false, id: null },
+      dataUpdate: { status: false, id: null },
     };
   },
   created() {
@@ -106,9 +106,9 @@ export default {
     openDialog(post = null) {
       this.$store.commit("posts/TOGGLE_DIALOG");
       this.post = { title: "", content: "" };
-      this.isUpdate = { status: false, id: null };
+      this.dataUpdate = { status: false, id: null };
       if (post) {
-        this.isUpdate = { status: true, id: post.id };
+        this.dataUpdate = { status: true, id: post.id };
         this.post = { title: post.title, content: post.content };
       }
     },
