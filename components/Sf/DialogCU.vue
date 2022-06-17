@@ -3,7 +3,7 @@
     <vs-dialog :value="dialog" prevent-close @close="toggle">
       <template #header>
         <h4 class="not-margin">
-          <b>{{ isStore ? "Create" : "Update" }}</b>
+          <b>{{ isUpdate.status ? "Update" : "Create" }}</b>
         </h4>
       </template>
 
@@ -15,7 +15,7 @@
 
       <template #footer>
         <div class="footer-dialog">
-          <vs-button block @click="isStore ? store() : update()">
+          <vs-button block @click="isUpdate.status ? update() : store()">
             Submit
           </vs-button>
         </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  props: ["isStore", "post", "idUpdate"],
+  props: ["post", "isUpdate"],
   name: "dialog-cu",
   components: {},
   computed: {
@@ -73,7 +73,7 @@ export default {
     update() {
       this.$nuxt.$loading.start();
       this.$api.posts.base
-        .update(this.idUpdate, this.post)
+        .update(this.isUpdate.id, this.post)
         .then((res) => {
           this.$store.commit("posts/UPDATE", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");

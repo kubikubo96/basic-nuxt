@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <h3>List Posts</h3>
     </div>
-    <DialogCU :isStore="isStore" :post="post" :idUpdate="idUpdate" />
+    <DialogCU :isUpdate="isUpdate" :post="post" />
     <div class="col-md-4">
       <vs-button class="sf-add" @click="openDialog()"> Create News </vs-button>
     </div>
@@ -74,16 +74,12 @@ export default {
   },
   data() {
     return {
-      isStore: true,
-      idUpdate: null,
       page: 1,
       limit: 20,
       length: 1,
       total: 1,
-      post: {
-        title: "",
-        content: "",
-      },
+      post: { title: "", content: "" },
+      isUpdate: { status: false, id: null },
     };
   },
   created() {
@@ -110,10 +106,9 @@ export default {
     openDialog(post = null) {
       this.$store.commit("posts/TOGGLE_DIALOG");
       this.post = { title: "", content: "" };
-      this.isStore = true;
+      this.isUpdate = { status: false, id: null };
       if (post) {
-        this.isStore = false;
-        this.idUpdate = post.id;
+        this.isUpdate = { status: true, id: post.id };
         this.post = { title: post.title, content: post.content };
       }
     },
@@ -132,7 +127,12 @@ export default {
             });
           })
           .catch((error) => {
-            console.log(error);
+            this.$vs.notification({
+              flat: true,
+              title: error,
+              color: "danger",
+              position: "top-center",
+            });
           })
           .then(() => {
             this.$nuxt.$loading.finish();
@@ -152,7 +152,12 @@ export default {
           this.$store.commit("posts/SET", data.data);
         })
         .catch(function (error) {
-          console.log(error);
+          this.$vs.notification({
+            flat: true,
+            title: error,
+            color: "danger",
+            position: "top-center",
+          });
         })
         .then(() => {
           this.$nuxt.$loading.finish();
