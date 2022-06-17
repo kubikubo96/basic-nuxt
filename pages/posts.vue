@@ -7,7 +7,7 @@
     <div class="center">
       <vs-dialog v-model="dialog">
         <template #header>
-          <h4 class="not-margin"><b>Create</b></h4>
+          <h4 class="not-margin"><b>{{isStore ? "Create" : "Update"}}</b></h4>
         </template>
 
         <div class="con-form">
