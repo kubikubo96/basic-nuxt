@@ -73,7 +73,7 @@ export default {
 
     axios: {
         // proxy: true,
-        baseURL: process.env.BASE_URL || 'http://learn.laravel.local'
+        baseURL: process.env.BASE_URL || 'http://api.laravel.local'
     },
 
     http: {
