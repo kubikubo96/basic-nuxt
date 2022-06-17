@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <h3>List Posts</h3>
     </div>
-    <dialog-c-u :dataUpdate="dataUpdate" :post="post" />
+    <dialog-post :dataUpdate="dataUpdate" :post="post" />
     <div class="col-md-4">
       <vs-button class="sf-add" @click="openDialog()"> Create News </vs-button>
     </div>
@@ -58,14 +58,14 @@
 <script>
 import EditProfileForm from "../components/UserProfile/EditProfileForm.vue";
 import UserCard from "../components/UserProfile/UserCard.vue";
-import DialogCU from "~/components/Sf/DialogCU.vue";
+import DialogPost from "~/components/Sf/DialogPost.vue";
 
 export default {
   name: "post",
   components: {
     EditProfileForm,
     UserCard,
-    DialogCU,
+    DialogPost,
   },
   computed: {
     posts() {
