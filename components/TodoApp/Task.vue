@@ -16,7 +16,7 @@ export default {
       this.$nuxt.$loading.start();
       const task = { ...this.task };
       task.done = !this.task.done;
-      const promise = this.$repo.todos.base.update(this.task.id, task);
+      const promise = this.$api.todos.base.update(this.task.id, task);
       promise
         .then(() => {
           this.$store.commit("todos/TOGGLE", this.task);
@@ -36,7 +36,7 @@ export default {
     remove() {
       if (confirm("Remove task?")) {
         this.$nuxt.$loading.start();
-        const promise = this.$repo.todos.base.delete(this.task.id);
+        const promise = this.$api.todos.base.delete(this.task.id);
         promise
           .then(() => {
             this.$store.commit("todos/REMOVE", this.task);

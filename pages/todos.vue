@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    const promise = this.$repo.todos.base.index({
+    const promise = this.$api.todos.base.index({
       page: this.page,
       limit: this.limit,
     });
@@ -61,7 +61,7 @@ export default {
     add() {
       if (this.newTask) {
         this.$nuxt.$loading.start();
-        const promise = this.$repo.todos.base.store({ content: this.newTask });
+        const promise = this.$api.todos.base.store({ content: this.newTask });
         promise
           .then((data) => {
             this.$store.commit("todos/ADD", data.data.content);

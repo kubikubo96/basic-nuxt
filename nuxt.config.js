@@ -53,7 +53,7 @@ export default {
     */
     plugins: [
         `~/plugins/dashboard-plugin.js`,
-        `~/plugins/repositories.js`,
+        `~/plugins/api-service.js`,
         `~/plugins/vuesax.js`,
     ],
     /*

@@ -111,7 +111,7 @@ export default {
     };
   },
   created() {
-    this.$repo.posts.base
+    this.$api.posts.base
       .index({
         page: this.page,
         limit: this.limit,
@@ -143,7 +143,7 @@ export default {
     },
     store() {
       this.$nuxt.$loading.start();
-      this.$repo.posts.base
+      this.$api.posts.base
         .store(this.post)
         .then((res) => {
           this.$store.commit("posts/ADD", res.data);
@@ -173,7 +173,7 @@ export default {
     },
     update() {
       this.$nuxt.$loading.start();
-      this.$repo.posts.base
+      this.$api.posts.base
         .update(this.idUpdate, this.post)
         .then((res) => {
           this.$store.commit("posts/UPDATE", res.data);
@@ -204,7 +204,7 @@ export default {
     remove(post) {
       if (confirm("Remove post?")) {
         this.$nuxt.$loading.start();
-        this.$repo.posts.base
+        this.$api.posts.base
           .delete(post.id)
           .then(() => {
             this.$store.commit("posts/REMOVE", post);
@@ -226,7 +226,7 @@ export default {
     changePage(page) {
       this.page = page;
       this.$nuxt.$loading.start();
-      this.$repo.posts.base
+      this.$api.posts.base
         .index({
           page: this.page,
           limit: this.limit,
