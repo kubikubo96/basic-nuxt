@@ -62,7 +62,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error,
+            title: error.response.data[0],
             color: "danger",
             position: "top-center",
           });
@@ -76,7 +76,6 @@ export default {
           this.$nuxt.$loading.finish();
           this.$store.commit("posts/UPDATE", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");
-          // this.$store.commit("posts/TOGGLE_DIALOG"); //change data parent from child
 
           this.$vs.notification({
             flat: true,
@@ -88,7 +87,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error,
+            title: error.response.data[0],
             color: "danger",
             position: "top-center",
           });

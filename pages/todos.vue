@@ -54,12 +54,19 @@ export default {
         limit: this.limit,
       })
       .then((data) => {
-        this.$nuxt.$loading.finish();
         this.$store.commit("todos/SET", data.data);
         this.totalPage = Math.floor(data.total / this.limit);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        this.$vs.notification({
+          flat: true,
+          title: error.response.data[0],
+          color: "danger",
+          position: "top-center",
+        });
+      })
+      .then(() => {
+        this.$nuxt.$loading.finish();
       });
   },
   methods: {
@@ -69,7 +76,6 @@ export default {
         this.$api.todos.base
           .store({ content: this.newTask })
           .then((data) => {
-            this.$nuxt.$loading.finish();
             this.$store.commit("todos/ADD", data.data.content);
             this.$vs.notification({
               title: "Success!",
@@ -77,10 +83,16 @@ export default {
               position: "top-right",
             });
           })
-          .catch(function (error) {
-            console.log(error);
+          .catch((error) => {
+            this.$vs.notification({
+              flat: true,
+              title: error.response.data[0],
+              color: "danger",
+              position: "top-center",
+            });
           })
           .then(() => {
+            $this.$nuxt.$loading.finish();
             this.newTask = "";
           });
       }

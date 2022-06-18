@@ -53,10 +53,10 @@ export default {
     ** Plugins to load before mounting the App
     */
     plugins: [
+        `~/plugins/vuesax.js`,
         `~/plugins/dashboard-plugin.js`,
         `~/plugins/axios.js`,
         `~/plugins/api-service.js`,
-        `~/plugins/vuesax.js`,
     ],
     /*
     ** Nuxt.js dev-modules

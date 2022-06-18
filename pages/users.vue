@@ -14,6 +14,8 @@
             <vs-tr>
               <vs-th> STT </vs-th>
               <vs-th> Name </vs-th>
+              <vs-th> Role </vs-th>
+              <vs-th> Permission Extra </vs-th>
               <vs-th> Username </vs-th>
               <vs-th> Email </vs-th>
               <vs-th> Admin </vs-th>
@@ -23,22 +25,35 @@
           </template>
           <template #tbody>
             <vs-tr v-for="(user, idx) in users" :key="user.id" :data="user">
-              <vs-td class="sf-title">
+              <vs-td class="sf-stt">
                 #{{ idx + limit * (page - 1) + 1 }}
               </vs-td>
-              <vs-td class="sf-title">
+              <vs-td class="sf-full-name">
                 {{ user.full_name }}
               </vs-td>
-              <vs-td class="sf-title">
+              <vs-td class="sf-role">
+                <span v-for="role in user.roles" :key="role.id">
+                  {{ role.title }}
+                </span>
+              </vs-td>
+              <vs-td class="sf-permission">
+                <span
+                  v-for="permission in user.permissions"
+                  :key="permission.id"
+                >
+                  {{ permission.title }}
+                </span>
+              </vs-td>
+              <vs-td class="sf-username">
                 {{ user.username }}
               </vs-td>
-              <vs-td class="sf-content">
+              <vs-td class="sf-email">
                 {{ user.email }}
               </vs-td>
-              <vs-td class="sf-content">
+              <vs-td class="sf-admin">
                 {{ user.admin }}
               </vs-td>
-              <vs-td class="sf-content">
+              <vs-td class="sf-active">
                 {{ user.active }}
               </vs-td>
               <vs-td class="sf-action">
@@ -109,17 +124,19 @@ export default {
         limit: this.limit,
       })
       .then((data) => {
-        this.$nuxt.$loading.finish();
         this.length = Math.floor(data.total / this.limit);
         this.$store.commit("users/SET", data.data);
       })
-      .catch(function (error) {
+      .catch((error) => {
         this.$vs.notification({
           flat: true,
-          title: error,
+          title: error.response.data[0],
           color: "danger",
           position: "top-center",
         });
+      })
+      .then(() => {
+        this.$nuxt.$loading.finish();
       });
   },
   methods: {
@@ -138,7 +155,6 @@ export default {
         this.$api.users.base
           .delete(user.id)
           .then(() => {
-            this.$nuxt.$loading.finish();
             this.$store.commit("users/REMOVE", user);
             this.$vs.notification({
               flat: true,
@@ -150,10 +166,13 @@ export default {
           .catch((error) => {
             this.$vs.notification({
               flat: true,
-              title: error,
+              title: error.response.data[0],
               color: "danger",
               position: "top-center",
             });
+          })
+          .then(() => {
+            this.$nuxt.$loading.finish();
           });
       }
     },
@@ -166,24 +185,36 @@ export default {
           limit: this.limit,
         })
         .then((data) => {
-          this.$nuxt.$loading.finish();
           this.length = Math.floor(data.total / this.limit);
           this.$store.commit("users/SET", data.data);
         })
-        .catch(function (error) {
+        .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error,
+            title: error.response.data[0],
             color: "danger",
             position: "top-center",
           });
         })
         .then(() => {
+          this.$nuxt.$loading.finish();
           this.$store.dispatch("SCROLL_TOP");
         });
     },
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.sf-add {
+  float: right;
+}
+.sf-table {
+  .sf-stt {
+    width: 3%;
+  }
+  .sf-action {
+    display: flex;
+    text-align: right;
+  }
+}
 </style>
