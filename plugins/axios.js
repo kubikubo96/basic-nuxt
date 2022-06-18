@@ -3,8 +3,7 @@ export default function ({ $axios, $auth, redirect, store }) {
     config.headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-      // 'Authorization': store.state.auth.tokenlocal, // refers to nuxt.config.js->auth.token
+      // Authorization: "Bearer " + token,
     }
   })
 

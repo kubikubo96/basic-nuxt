@@ -1,5 +1,5 @@
 import baseService from '~/services/api/baseService'
 
 export default ($axios) => ({
-    base: baseService($axios, '/api/posts'),
+    base: baseService($axios, '/api/users'),
 })
