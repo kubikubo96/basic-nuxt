@@ -110,11 +110,11 @@ export default {
                 token: {
                     property: 'access_token',
                     type: 'Bearer',
-                    maxAge: 1800
+                    maxAge: 60 * 60
                 },
                 refreshToken: {
                     property: 'refresh_token',
-                    maxAge: 60 * 60 * 24 * 30
+                    maxAge: 20160 * 60
                 },
             },
         },

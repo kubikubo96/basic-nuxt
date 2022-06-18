@@ -53,11 +53,15 @@ export default {
   },
   methods: {
     async userLogin() {
+      this.$nuxt.$loading.start();
       try {
-        await this.$auth.loginWith("local", {
-          data: this.login,
-        });
+        await this.$auth
+          .loginWith("local", {
+            data: this.login,
+          })
+          .then(() => this.$nuxt.$loading.finish());
       } catch (error) {
+        this.$nuxt.$loading.finish();
         this.$vs.notification({
           flat: true,
           title: error,
