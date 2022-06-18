@@ -76,6 +76,7 @@ export default {
         .update(this.dataUpdate.id, this.post)
         .then((res) => {
           this.$store.commit("posts/UPDATE", res.data);
+          this.$store.commit("posts/TOGGLE_DIALOG");
           // this.$store.commit("posts/TOGGLE_DIALOG"); //change data parent from child
 
           this.$vs.notification({
