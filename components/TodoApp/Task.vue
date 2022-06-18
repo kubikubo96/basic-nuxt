@@ -19,6 +19,7 @@ export default {
       const promise = this.$api.todos.base.update(this.task.id, task);
       promise
         .then(() => {
+          this.$nuxt.$loading.finish();
           this.$store.commit("todos/TOGGLE", this.task);
           this.$vs.notification({
             title: "Success!",
@@ -28,9 +29,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
         });
     },
     remove() {
@@ -39,6 +37,7 @@ export default {
         const promise = this.$api.todos.base.delete(this.task.id);
         promise
           .then(() => {
+            this.$nuxt.$loading.finish();
             this.$store.commit("todos/REMOVE", this.task);
             this.$vs.notification({
               title: "Success!",
@@ -48,9 +47,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          })
-          .then(() => {
-            this.$nuxt.$loading.finish();
           });
       }
     },

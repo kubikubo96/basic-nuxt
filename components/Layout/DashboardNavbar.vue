@@ -151,6 +151,10 @@ export default {
       this.showMenu = !this.showMenu;
     },
     async userLogout() {
+      this.$nuxt.$loading.start();
+      setTimeout(() => {
+        this.$nuxt.$loading.finish();
+      }, 1000);
       await this.$auth.logout();
     },
   },

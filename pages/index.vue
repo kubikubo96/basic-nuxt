@@ -23,12 +23,7 @@ export default {
   },
   computed: {},
   methods: {},
-  mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      setTimeout(() => this.$nuxt.$loading.finish(), 500);
-    });
-  },
+  mounted() {},
 };
 </script>
 <style></style>

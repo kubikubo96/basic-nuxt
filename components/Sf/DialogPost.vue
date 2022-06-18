@@ -47,6 +47,7 @@ export default {
       this.$api.posts.base
         .store(this.post)
         .then((res) => {
+          this.$nuxt.$loading.finish();
           this.$store.commit("posts/ADD", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");
           this.$emit("post", { title: "", content: "" });
@@ -65,9 +66,6 @@ export default {
             color: "danger",
             position: "top-center",
           });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
         });
     },
     update() {
@@ -75,6 +73,7 @@ export default {
       this.$api.posts.base
         .update(this.dataUpdate.id, this.post)
         .then((res) => {
+          this.$nuxt.$loading.finish();
           this.$store.commit("posts/UPDATE", res.data);
           this.$store.commit("posts/TOGGLE_DIALOG");
           // this.$store.commit("posts/TOGGLE_DIALOG"); //change data parent from child
@@ -93,9 +92,6 @@ export default {
             color: "danger",
             position: "top-center",
           });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
         });
     },
   },

@@ -59,7 +59,9 @@ export default {
           .loginWith("local", {
             data: this.login,
           })
-          .then(() => this.$nuxt.$loading.finish());
+          .then(() => {
+            this.$nuxt.$loading.finish();
+          });
       } catch (error) {
         this.$nuxt.$loading.finish();
         this.$vs.notification({
@@ -71,6 +73,7 @@ export default {
       }
     },
   },
+  mounted() {},
 };
 </script>
 <style lang="scss" scoped>

@@ -54,6 +54,7 @@ export default {
       this.$api.users.base
         .store(this.user)
         .then((res) => {
+          this.$nuxt.$loading.finish();
           this.$store.commit("users/ADD", res.data);
           this.$store.commit("users/TOGGLE_DIALOG");
 
@@ -71,9 +72,6 @@ export default {
             color: "danger",
             position: "top-center",
           });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
         });
     },
     update() {
@@ -81,6 +79,7 @@ export default {
       this.$api.users.base
         .update(this.dataUpdate.id, this.user)
         .then((res) => {
+          this.$nuxt.$loading.finish();
           this.$store.commit("users/UPDATE", res.data);
           this.$store.commit("users/TOGGLE_DIALOG");
 
@@ -98,9 +97,6 @@ export default {
             color: "danger",
             position: "top-center",
           });
-        })
-        .then(() => {
-          this.$nuxt.$loading.finish();
         });
     },
   },
