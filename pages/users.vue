@@ -23,7 +23,9 @@
           </template>
           <template #tbody>
             <vs-tr v-for="(user, idx) in users" :key="user.id" :data="user">
-              <vs-td class="sf-title"> #{{ idx + limit * (page -1) + 1  }} </vs-td>
+              <vs-td class="sf-title">
+                #{{ idx + limit * (page - 1) + 1 }}
+              </vs-td>
               <vs-td class="sf-title">
                 {{ user.full_name }}
               </vs-td>
@@ -107,25 +109,23 @@ export default {
         limit: this.limit,
       })
       .then((data) => {
+        this.$nuxt.$loading.finish();
         this.length = Math.floor(data.total / this.limit);
         this.$store.commit("users/SET", data.data);
       })
       .catch(function (error) {
         this.$vs.notification({
-              flat: true,
-              title: error,
-              color: "danger",
-              position: "top-center",
-            });
-      })
-      .then(() => {
-        this.$nuxt.$loading.finish();
+          flat: true,
+          title: error,
+          color: "danger",
+          position: "top-center",
+        });
       });
   },
   methods: {
     openDialog(user = null) {
       this.$store.commit("users/TOGGLE_DIALOG");
-      this.user = {admin:false};
+      this.user = { admin: false };
       this.dataUpdate = {};
       if (user) {
         this.dataUpdate = { status: true, id: user.id };
@@ -138,6 +138,7 @@ export default {
         this.$api.users.base
           .delete(user.id)
           .then(() => {
+            this.$nuxt.$loading.finish();
             this.$store.commit("users/REMOVE", user);
             this.$vs.notification({
               flat: true,
@@ -153,9 +154,6 @@ export default {
               color: "danger",
               position: "top-center",
             });
-          })
-          .then(() => {
-            this.$nuxt.$loading.finish();
           });
       }
     },
@@ -168,6 +166,7 @@ export default {
           limit: this.limit,
         })
         .then((data) => {
+          this.$nuxt.$loading.finish();
           this.length = Math.floor(data.total / this.limit);
           this.$store.commit("users/SET", data.data);
         })
@@ -180,7 +179,6 @@ export default {
           });
         })
         .then(() => {
-          this.$nuxt.$loading.finish();
           this.$store.dispatch("SCROLL_TOP");
         });
     },

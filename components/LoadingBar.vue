@@ -3,17 +3,17 @@
 <script>
 export default {
   data: () => ({
-    vsLoading: false
+    vsLoading: false,
   }),
   methods: {
     start() {
       this.vsLoading = this.$vs.loading({
-        type: 'circles'
+        type: "circles",
       });
     },
     finish() {
-      this.vsLoading.close()
-    }
-  }
-}
+      this.vsLoading.close();
+    },
+  },
+};
 </script>

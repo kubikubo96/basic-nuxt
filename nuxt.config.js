@@ -11,21 +11,22 @@ export default {
     head: {
         title: 'Nuxt Black Dashboard',
         meta: [
-            {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
+            { charset: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
         ],
         link: [
-            {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-            {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800'},
-            {rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'}
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800' },
+            { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css' }
         ],
         bodyAttrs: {
             class: '' // Add `white-content` class here to enable "white" mode.
         }
     },
     router: {
-        linkExactActiveClass: 'active'
+        middleware: ['auth'],
+        linkExactActiveClass: 'active',
     },
     /*
     ** Customize the progress-bar color
@@ -70,6 +71,7 @@ export default {
         '@nuxtjs/axios',
         '@nuxt/http',
         '@nuxtjs/dotenv',
+        '@nuxtjs/auth-next'
     ],
 
     axios: {
@@ -92,6 +94,38 @@ export default {
         langDir: 'lang/',
         defaultLocale: 'en',
     },
+
+    auth: {
+        plugins: ['~/plugins/auth.js'],
+        strategies: {
+            'local': {
+                provider: 'laravel/jwt',
+                url: process.env.BASE_URL,
+                endpoints: {
+                    login: { url: '/api/auth/login', method: 'post' },
+                    refresh: { url: '/api/auth/refresh', method: 'post' },
+                    user: { url: '/api/auth/me', method: 'get' },
+                    logout: { url: '/api/auth/logout', method: 'post' },
+                },
+                token: {
+                    property: 'access_token',
+                    type: 'Bearer',
+                    maxAge: 1800
+                },
+                refreshToken: {
+                    property: 'refresh_token',
+                    maxAge: 60 * 60 * 24 * 30
+                },
+            },
+        },
+        redirect: {
+            home: '/',
+            login: '/login',
+            logout: '/login'
+        },
+        watchLoggedIn: true
+    },
+
     /*
     ** Build configuration
     */

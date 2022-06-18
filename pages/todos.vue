@@ -69,6 +69,7 @@ export default {
         this.$api.todos.base
           .store({ content: this.newTask })
           .then((data) => {
+            this.$nuxt.$loading.finish();
             this.$store.commit("todos/ADD", data.data.content);
             this.$vs.notification({
               title: "Success!",
@@ -81,7 +82,6 @@ export default {
           })
           .then(() => {
             this.newTask = "";
-            this.$nuxt.$loading.finish();
           });
       }
     },

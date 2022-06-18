@@ -8,20 +8,22 @@
         type="text"
         label="Tài khoản"
         placeholder="tiennt"
-        v-model="user.username"
+        v-model="login.email"
+        @keyup.enter="userLogin"
       >
       </base-input>
       <base-input
         type="password"
         label="Mật khẩu"
         placeholder="tiennt"
-        v-model="user.password"
+        v-model="login.password"
+        @keyup.enter="userLogin"
       >
       </base-input>
-      <div class="tt-btn-submit" @click="login()">
+      <div class="tt-btn-submit" @click="userLogin">
         <base-button native-type="submit" class="btn-fill">
-        Đăng nhập
-      </base-button>
+          Đăng nhập
+        </base-button>
       </div>
       <p></p>
       <div class="tt-footer">
@@ -43,15 +45,26 @@ export default {
   layout: "empty",
   data() {
     return {
-      user: {
-        username: "",
+      login: {
+        email: "",
         password: "",
       },
     };
   },
   methods: {
-    login() {
-      alert("Your data: " + JSON.stringify(this.user));
+    async userLogin() {
+      try {
+        await this.$auth.loginWith("local", {
+          data: this.login,
+        });
+      } catch (error) {
+        this.$vs.notification({
+          flat: true,
+          title: error,
+          color: "danger",
+          position: "top-center",
+        });
+      }
     },
   },
 };
@@ -67,7 +80,7 @@ export default {
     .tt-btn-submit {
       text-align: center;
     }
-    
+
     .tt-title {
       p {
         font-weight: bold;
@@ -78,8 +91,8 @@ export default {
     .tt-btn-submit {
       margin-bottom: 20px;
       .btn-fill {
-      height: 35px;
-    }
+        height: 35px;
+      }
     }
   }
 }

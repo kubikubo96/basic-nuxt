@@ -15,16 +15,15 @@
   </div>
 </template>
 <script>
-
 export default {
-  name: 'dashboard',
+  name: "dashboard",
   components: {},
-  data () {
+  data() {
     return {};
   },
   computed: {},
   methods: {},
-  mounted () {}
-}
+  mounted() {},
+};
 </script>
 <style></style>

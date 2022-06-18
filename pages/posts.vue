@@ -93,14 +93,12 @@ export default {
         limit: this.limit,
       })
       .then((data) => {
+        this.$nuxt.$loading.finish();
         this.length = Math.floor(data.total / this.limit);
         this.$store.commit("posts/SET", data.data);
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .then(() => {
-        this.$nuxt.$loading.finish();
       });
   },
   methods: {
@@ -119,6 +117,7 @@ export default {
         this.$api.posts.base
           .delete(post.id)
           .then(() => {
+            this.$nuxt.$loading.finish();
             this.$store.commit("posts/REMOVE", post);
             this.$vs.notification({
               flat: true,
@@ -134,9 +133,6 @@ export default {
               color: "danger",
               position: "top-center",
             });
-          })
-          .then(() => {
-            this.$nuxt.$loading.finish();
           });
       }
     },
@@ -149,6 +145,7 @@ export default {
           limit: this.limit,
         })
         .then((data) => {
+          this.$nuxt.$loading.finish();
           this.length = Math.floor(data.total / this.limit);
           this.$store.commit("posts/SET", data.data);
         })
@@ -161,7 +158,6 @@ export default {
           });
         })
         .then(() => {
-          this.$nuxt.$loading.finish();
           this.$store.dispatch("SCROLL_TOP");
         });
     },
