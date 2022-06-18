@@ -82,7 +82,11 @@ export default {
       dataUpdate: { status: false, id: null },
     };
   },
-  created() {
+  created() {},
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
     this.$api.posts.base
       .index({
         page: this.page,
@@ -94,13 +98,10 @@ export default {
       })
       .catch(function (error) {
         console.log(error);
+      })
+      .then(() => {
+        this.$nuxt.$loading.finish();
       });
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      setTimeout(() => this.$nuxt.$loading.finish(), 500);
-    });
   },
   methods: {
     openDialog(post = null) {

@@ -43,13 +43,18 @@ export default {
       limit: 50,
     };
   },
-  created() {
-    const promise = this.$api.todos.base.index({
-      page: this.page,
-      limit: this.limit,
+  created() {},
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
     });
-    promise
+    this.$api.todos.base
+      .index({
+        page: this.page,
+        limit: this.limit,
+      })
       .then((data) => {
+        this.$nuxt.$loading.finish();
         this.$store.commit("todos/SET", data.data);
         this.totalPage = Math.floor(data.total / this.limit);
       })
@@ -61,8 +66,8 @@ export default {
     add() {
       if (this.newTask) {
         this.$nuxt.$loading.start();
-        const promise = this.$api.todos.base.store({ content: this.newTask });
-        promise
+        this.$api.todos.base
+          .store({ content: this.newTask })
           .then((data) => {
             this.$store.commit("todos/ADD", data.data.content);
             this.$vs.notification({
@@ -80,12 +85,6 @@ export default {
           });
       }
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-      setTimeout(() => this.$nuxt.$loading.finish(), 500);
-    });
   },
 };
 </script>
