@@ -60,7 +60,7 @@ export default {
       .catch((error) => {
         this.$vs.notification({
           flat: true,
-          title: error.response.data[0],
+          title: error,
           color: "danger",
           position: "top-center",
         });
@@ -86,7 +86,7 @@ export default {
           .catch((error) => {
             this.$vs.notification({
               flat: true,
-              title: error.response.data[0],
+              title: error,
               color: "danger",
               position: "top-center",
             });

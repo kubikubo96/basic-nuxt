@@ -1,6 +1,6 @@
 export default ($axios, path) => ({
     async index(payload) {
-        return await $axios.$get(`${path}`, {params: payload})
+        return await $axios.$get(`${path}`, { params: payload })
     },
 
     async store(payload) {
@@ -20,5 +20,13 @@ export default ($axios, path) => ({
 
     async delete(id) {
         return $axios.$delete(`${path}/${id}`);
-    }
+    },
+
+    async dataIndex(payload) {
+        try {
+            return await $axios.$get(`${path}`, { params: payload });
+        } catch (error) {
+            throw new Error(error);
+        }
+    },
 })

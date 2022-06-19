@@ -7,7 +7,7 @@
         </h4>
       </template>
 
-      <div class="con-form">
+      <div class="sf-dialog-post con-form">
         <vs-input v-model="post.title" placeholder="Enter title"> </vs-input>
         <vs-input v-model="post.content" placeholder="Enter content">
         </vs-input>
@@ -62,7 +62,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error.response.data[0],
+            title: error,
             color: "danger",
             position: "top-center",
           });
@@ -87,7 +87,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error.response.data[0],
+            title: error,
             color: "danger",
             position: "top-center",
           });
@@ -97,14 +97,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .not-margin {
   margin: 0px;
   font-weight: normal;
   padding: 10px;
 }
-.con-form {
-  width: 100%;
+.sf-dialog-post {
   .flex {
     display: flex;
     align-items: center;
@@ -123,30 +122,15 @@ export default {
   .vs-input-content {
     margin: 10px 0px;
     width: calc(100%);
-    .vs-input {
-      width: 100%;
-    }
   }
 }
+
 .footer-dialog {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: calc(100%);
-  .new {
-    margin: 0px;
-    margin-top: 20px;
-    padding: 0px;
-    font-size: 0.7rem;
-    a {
-      color: rgba(var(--vs-primary), 1) !important;
-      margin-left: 6px;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
   .vs-button {
     margin: 0px;
   }

@@ -12,6 +12,42 @@
           <vs-checkbox v-model="user.admin"> Admin </vs-checkbox>
         </div>
         <div class="sf-content">
+          <vs-select
+            label="Roles"
+            filter
+            multiple
+            placeholder="Choose roles"
+            v-model="role_ids"
+          >
+            <vs-option
+              v-for="role in roles"
+              :key="role.id"
+              :label="role.title"
+              :value="role.id"
+            >
+              {{ role.title }}
+            </vs-option>
+          </vs-select>
+        </div>
+        <div class="sf-content">
+          <vs-select
+            label="Permissions"
+            filter
+            multiple
+            placeholder="Choose permissions"
+            v-model="permission_ids"
+          >
+            <vs-option
+              v-for="permission in permissions"
+              :key="permission.id"
+              :label="permission.title"
+              :value="permission.id"
+            >
+              {{ permission.title }}
+            </vs-option>
+          </vs-select>
+        </div>
+        <div class="sf-content">
           <vs-input
             label="Username"
             v-model="user.username"
@@ -32,9 +68,8 @@
             placeholder="Enter Phone"
           />
         </div>
-        <div class="sf-content">
+        <div v-if="!dataUpdate.status" class="sf-content">
           <vs-input
-            v-if="!dataUpdate.status"
             v-model="user.password"
             label="Password"
             placeholder="Enter Password"
@@ -69,7 +104,7 @@
 
 <script>
 export default {
-  props: ["user", "dataUpdate"],
+  props: ["user", "dataUpdate", "roles", "permissions"],
   components: {},
   computed: {
     dialog() {
@@ -77,9 +112,13 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      role_ids: [],
+      permission_ids: [],
+    };
   },
   created() {},
+  mounted() {},
   methods: {
     toggle() {
       this.$store.commit("users/TOGGLE_DIALOG");
@@ -102,7 +141,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error.response.data[0],
+            title: error,
             color: "danger",
             position: "top-center",
           });
@@ -129,7 +168,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error.response.data[0],
+            title: error,
             color: "danger",
             position: "top-center",
           });
@@ -142,79 +181,67 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .not-margin {
   margin: 0px;
   font-weight: normal;
   padding: 10px;
 }
-.con-form {
-  width: 100%;
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    a {
-      font-size: 0.8rem;
-      opacity: 0.7;
-      &:hover {
-        opacity: 1;
+.sf-dialog-user {
+  .sf-content {
+    padding: 20px;
+    .flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      a {
+        font-size: 0.8rem;
+        opacity: 0.7;
+        &:hover {
+          opacity: 1;
+        }
       }
     }
-  }
-  .vs-checkbox-label {
-    font-size: 0.8rem;
-  }
-  .vs-input-content {
-    margin: 10px 0px;
-    width: calc(100%);
-    .vs-input {
-      width: 100%;
+    .vs-checkbox-label {
+      font-size: 0.8rem;
+    }
+    .vs-input-content {
+      margin: 10px 0px;
+      width: calc(100%);
+    }
+
+    .vs-select-content {
+      max-width: inherit;
     }
   }
 }
 
-.sf-dialog-user {
-  .sf-content {
-    margin: 15px;
+.footer-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: calc(100%);
+  button {
+    margin: 0px;
+    width: 100px;
   }
 }
 </style>
 
 <style lang="scss">
 .vs-dialog {
-  width: 50%;
   .vs-dialog__header {
     padding: 0;
   }
   .vs-dialog__content {
     padding-top: 0;
   }
-  .footer-dialog {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: calc(100%);
-    .new {
-      margin: 0px;
-      margin-top: 20px;
-      padding: 0px;
-      font-size: 0.7rem;
-      a {
-        color: rgba(var(--vs-primary), 1) !important;
-        margin-left: 6px;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-    .vs-button {
-      margin: 0px;
-    }
-    button {
-      width: 100px;
-    }
-  }
+}
+.vs-input-content .vs-input {
+  width: 100%;
+}
+.vs-select__label {
+  top: 0;
 }
 </style>

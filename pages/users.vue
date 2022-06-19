@@ -3,7 +3,12 @@
     <div class="col-md-8">
       <h3>List Users</h3>
     </div>
-    <dialog-user :dataUpdate="dataUpdate" :user="user" />
+    <dialog-user
+      :dataUpdate="dataUpdate"
+      :user="user"
+      :roles="roles"
+      :permissions="permissions"
+    />
     <div class="col-md-4">
       <vs-button class="sf-add" @click="openDialog()"> Create News </vs-button>
     </div>
@@ -111,6 +116,8 @@ export default {
       total: 1,
       user: {},
       dataUpdate: {},
+      roles: [],
+      permissions: [],
     };
   },
   created() {},
@@ -118,29 +125,30 @@ export default {
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
     });
+
     this.$api.users.base
       .index({
         page: this.page,
         limit: this.limit,
       })
       .then((data) => {
-        this.length = Math.floor(data.total / this.limit);
-        this.$store.commit("users/SET", data.data);
-      })
-      .catch((error) => {
-        this.$vs.notification({
-          flat: true,
-          title: error.response.data[0],
-          color: "danger",
-          position: "top-center",
-        });
-      })
-      .then(() => {
         this.$nuxt.$loading.finish();
+        if (data.state) {
+          this.length = Math.floor(data.total / this.limit);
+          this.$store.commit("users/SET", data.data);
+        } else {
+          alert(JSON.stringify(data.message));
+        }
       });
   },
   methods: {
-    openDialog(user = null) {
+    async openDialog(user = null) {
+      this.$nuxt.$loading.start();
+
+      this.roles = await this.$api.roles.base.dataIndex();
+      this.permissions = await this.$api.permissions.base.dataIndex();
+
+      this.$nuxt.$loading.finish();
       this.$store.commit("users/TOGGLE_DIALOG");
       this.user = { admin: false };
       this.dataUpdate = {};
@@ -166,7 +174,7 @@ export default {
           .catch((error) => {
             this.$vs.notification({
               flat: true,
-              title: error.response.data[0],
+              title: error,
               color: "danger",
               position: "top-center",
             });
@@ -191,7 +199,7 @@ export default {
         .catch((error) => {
           this.$vs.notification({
             flat: true,
-            title: error.response.data[0],
+            title: error,
             color: "danger",
             position: "top-center",
           });
