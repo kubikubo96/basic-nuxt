@@ -24,7 +24,8 @@ export default ($axios, path) => ({
 
     async dataIndex(payload) {
         try {
-            return await $axios.$get(`${path}`, { params: payload });
+            const data = await $axios.$get(`${path}`, { params: payload });
+            return data.data;
         } catch (error) {
             throw new Error(error);
         }
